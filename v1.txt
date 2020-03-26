@@ -1,0 +1,36 @@
+#!/usr/bin/python
+from github import Github
+import traceback
+import sys
+from io import BytesIO
+import json
+import requests
+from requests.auth import HTTPBasicAuth
+import zipfile
+import pprint
+import io
+
+GitPassword = 'e267fd21e65f8ed5b37fe3d1d5b88debc37aa2ae'
+g = Github(base_url="https://api.github.com",
+   login_or_token=GitPassword)
+for repo in g.get_user().get_repos():
+    print(repo.name)
+reponame = 'SSGitTest'
+def create_repo(reponame):
+	try:
+		organization = g.get_organization("boopsantest")
+		organization.create_repo(
+			reponame,
+			allow_rebase_merge=True,
+			auto_init=False,
+			description='Initial repo creation',
+			has_issues=True,
+			has_projects=False,
+			has_wiki=False,
+			private=False,
+		)
+		print("Repository created...")
+	except:
+		print("Error occured while create repo...")
+create_repo(reponame)
+
